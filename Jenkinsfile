@@ -16,6 +16,18 @@ pipeline {
                     url: 'https://github.com/kvsanojkv/terraform-jenkins-lab.git'
             }
         }
+         stage('Debug AWS Env') {
+         steps {
+          sh '''
+          echo "==== AWS ENV VARS ===="
+          env | grep AWS || true
+
+          echo "==== AWS CONFIG FILE ===="
+          ls -l ~/.aws || true
+          cat ~/.aws/credentials || true
+        '''
+    }
+}
 
         stage('Terraform Init') {
             steps {

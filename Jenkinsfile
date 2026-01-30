@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('aws-creds').accessKey
-        AWS_SECRET_ACCESS_KEY = credentials('aws-creds').secretKey
+        AWS_ACCESS_KEY_ID     = "credentials('aws-creds').accessKey"
+        AWS_SECRET_ACCESS_KEY = "credentials('aws-creds').secretKey"
         AWS_REGION            = "ap-south-1"
         TF_VAR_bucket_name    = "terraform-pipeline-sanoj-12345"
     }

@@ -8,7 +8,6 @@ terraform.tfvars.json
 
 # Terraform plan files
 *.tfplan
-
 # AWS credentials (VERY IMPORTANT)
 .aws/
 **/.aws/

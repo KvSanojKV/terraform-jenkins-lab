@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = "ap-south-1"
-        TF_VAR_bucket_name    = "terraform-pipeline-sanoj-12345"
+        TF_VAR_bucket_name = "terraform-pipeline-sanoj-12345"
     }
 
     stages {

@@ -2,10 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = "credentials('aws-creds').accessKey"
-        AWS_SECRET_ACCESS_KEY = "credentials('aws-creds').secretKey"
-        AWS_REGION            = "ap-south-1"
-        TF_VAR_bucket_name    = "terraform-pipeline-sanoj-12345"
+        AWS_REGION = "ap-south-1"
     }
 
     stages {
@@ -13,37 +10,51 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/kvsanojkv/terraform-jenkins-lab.git'
+                    url: 'https://github.com/KvSanojKV/terraform-jenkins-lab.git'
             }
         }
-         stage('Debug AWS Env') {
-         steps {
-          sh '''
-          echo "==== AWS ENV VARS ===="
-          env | grep AWS || true
 
-          echo "==== AWS CONFIG FILE ===="
-          ls -l ~/.aws || true
-          cat ~/.aws/credentials || true
-        '''
-    }
-}
+        stage('Verify AWS Identity') {
+            steps {
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+                    sh 'aws sts get-caller-identity'
+                }
+            }
+        }
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+                    sh 'terraform init'
+                }
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+                    sh 'terraform plan'
+                }
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
     }

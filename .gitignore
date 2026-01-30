@@ -1,3 +1,6 @@
+.gitignore
+.terraform.lock.hcl
+touch
 # Terraform
 .terraform/
 *.tfstate

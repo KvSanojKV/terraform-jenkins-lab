@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "bucket_name" {
-  description = "Unique S3 bucket name"
+  description = "Unique S3 bucket name V1"
 }
